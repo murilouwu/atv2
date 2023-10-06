@@ -1,7 +1,7 @@
 <?php
-    session_start();
     require 'Connect.php';
-
+    session_start();
+    $_SESSION['user'] = array();
     final class HtmlBased
     {
         function HeaderEcho($Title, $assets, $itemPlus) {

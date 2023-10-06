@@ -18,7 +18,11 @@
                 $html->mensage($UserFun);
                 echo '<a href="login.php">Voltar</a>';
             }else{
-                $_SESSION['user'] = $UserFun;
+                $a = 0;
+                foreach($UserFun as $row){
+                    $_SESSION['user'][$a] = $row;
+                    $a++;
+                }
                 $html->Atalho('adm.php');
             }
         }else{
