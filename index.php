@@ -16,6 +16,7 @@
 
 ?>
     <body>
+        <br><br><br><hr><br><br><br>
         <h1>Entre</h1>
         <br><br><br><hr><br><br><br>
         <form action="login.php" method="post">

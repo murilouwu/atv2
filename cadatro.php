@@ -13,10 +13,14 @@
         ],
         ''
     );
-
+    if($_SESSION['user']['nivel'] != 1){
+        $html->Atalho('erro.php');
+    }
 ?>
     <body>
-        <h3>Cadastre</h3>
+        <br><br><br><hr><br><br><br>
+        <h1>Cadastre</h1>
+        <br><br><br><hr><br><br><br>
         <form action="login.php" method="post">
             <label>Nome:</label>
             <input type="text" name="nome">

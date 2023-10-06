@@ -68,31 +68,70 @@
 
         function InsertUser($pdo, $Vls, $Vers, $Configs)
         {
-            $sql = "SELECT * FROM users WHERE email = :email";
+            $VersToText = '';
+            foreach ($Vers as $key => $ver) {
+                if ($key === 0) {
+                    $VersToText .= $this->Dates[$ver].'= :'.$this->Dates[$ver];
+                } else {
+                    $VersToText .= ' '. $Configs[0][$key - 1].' '.$this->Dates[$ver].'= :'.$this->Dates[$ver];
+                }
+            }
+
+            $sql = "SELECT * FROM ".$this->NameTable." WHERE ".$VersToText;
             $stmt = $pdo->prepare($sql);
-            $stmt->bindParam(':email', $email);
+            foreach($Vers as $key => $ver){
+                $dateParam = ':'.$this->Dates[$ver];
+                $stmt->bindParam($dateParam, $Vls[$ver]);
+            }
             $stmt->execute();
             if ($stmt->rowCount() > 0) {
-                mensage("Email já cadastrado, >:(");
-            } else {
+                return "cadastrado já existe, >:(";
+            }else{
                 try {
-                    $sql = "INSERT INTO users (nome, email, pass) VALUES (:name, :email, :password)";
+                    $DtsToText = implode(', ', $this->Dates);
+                    $VlsToText = '';
+                    foreach($Vls as $key => $vl){
+                        $valueParam = ':'.$this->Dates[$key];
+
+                        if($key === (count($Vls) - 1)){
+                            $VlsToText .= $valueParam;
+                        }else{
+                            $VlsToText .= $valueParam.', ';
+                        }
+                    }
+
+                    $sql = "INSERT INTO ".$this->NameTable." (".$DtsToText.") VALUES (".$VlsToText.")";
                     $stmt = $pdo->prepare($sql);
-                    $stmt->bindParam(':name', $name);
-                    $stmt->bindParam(':email', $email);
-                    $stmt->bindParam(':password', $password);
+                    foreach($Vls as $key => $vl){
+                        $dateParam = ':'.$this->Dates[$key];
+                        $stmt->bindParam($dateParam, $Vls[$key]);
+                    }
                     if ($stmt->execute()) {
-                        mensage('Usuário cadastrado com sucesso :)');
+                        return 'cadastrado com sucesso :)';
                     } else {
-                        throw new Exception('Erro ao cadastrar usuário ;-;');
+                        throw new Exception('Erro ao cadastrar ;-;');
                     }
                 } catch (PDOException $e) {
-                    mensage('Error: ' . $e->getMessage());
+                    return "Error: " . $e->getMessage();
                 }
             }
         }
-        function GetUser($pdo){
 
+        function GetUser($pdo, $DateRequire, $Where){
+            if($DateRequire == ""){
+                $DateRequire = "*";
+            }
+            try{
+                $sql = "SELECT ".$DateRequire." FROM ".$this->NameTable." WHERE ".$Where.";";
+                $stmt = $pdo->prepare($sql);
+                if($stmt->execute()){
+                    return $stmt;       
+                }else{
+                    throw new Exception('Erro');
+                }
+            } catch(PDOException $e){
+                return 'Error: '.$e->getMessage();
+            }
         }
     }
 ?>
