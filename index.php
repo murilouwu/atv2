@@ -13,7 +13,7 @@
         ],
         ''
     );
-
+    $_SESSION['user'] = array();
 ?>
     <body>
         <br><br><br><hr><br><br><br>

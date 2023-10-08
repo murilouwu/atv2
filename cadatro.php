@@ -13,7 +13,11 @@
         ],
         ''
     );
-    if($_SESSION['user']['nivel'] != 1){
+    if(isset($_SESSION['user'][0])){
+        if($_SESSION['user'][0]['nivel'] != 1){
+            $html->Atalho('erro.php');
+        }
+    }else{
         $html->Atalho('erro.php');
     }
 ?>
@@ -26,6 +30,10 @@
             <input type="text" name="nome">
             <label>senha:</label>
             <input type="password" name="senha">
+            <select name="ADM">
+                <option value="3">User Padrão</option>
+                <option value="1">User ADM</option>
+            </select>
             <input type="submit" value="Cadastre" name="Cad">
         </form>  
     </body>

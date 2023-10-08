@@ -1,7 +1,6 @@
 <?php
     require 'Connect.php';
     session_start();
-    $_SESSION['user'] = array();
     final class HtmlBased
     {
         function HeaderEcho($Title, $assets, $itemPlus) {
@@ -125,7 +124,11 @@
                 $sql = "SELECT ".$DateRequire." FROM ".$this->NameTable." WHERE ".$Where.";";
                 $stmt = $pdo->prepare($sql);
                 if($stmt->execute()){
-                    return $stmt;       
+                    if($stmt->rowCount() > 0){
+                        return $stmt;    
+                    }else{
+                        return 'Não Encontrado';
+                    }
                 }else{
                     throw new Exception('Erro');
                 }

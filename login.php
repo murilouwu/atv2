@@ -16,7 +16,7 @@
 
             if(is_string($UserFun)){
                 $html->mensage($UserFun);
-                echo '<a href="login.php">Voltar</a>';
+                echo '<a href="index.php">Voltar</a>';
             }else{
                 $a = 0;
                 foreach($UserFun as $row){
@@ -27,11 +27,11 @@
             }
         }else{
             $html->mensage("Há campos vazios!");
-            echo '<a href="login.php">Voltar</a>';
+            echo '<a href="index.php">Voltar</a>';
         }
 
     }else if(isset($_POST['Cad'])){
-        $userCad = array($_POST['nome'], $_POST['senha'], 3);
+        $userCad = array($_POST['nome'], $_POST['senha'], $_POST['ADM']);
         if(!empty($userCad[0]) && !empty($userCad[1])){
             $date = array('nome', 'pass', 'nivel');
             $Verifcs = array(0, 1);
